@@ -43,7 +43,7 @@ eval "$INPUT_PRE_BUILD"
 
 if [[ $INPUT_SLIDES_SKIP_ASCIIDOCTOR_BUILD == false ]]; then
     echo "Converting AsciiDoc files to HTML"
-    find . -name "*$INPUT_ADOC_FILE_EXT" -exec asciidoctor -b html $INPUT_ASCIIDOCTOR_PARAMS {} \;
+    find . -name "*$INPUT_ADOC_FILE_EXT" -exec asciidoctor -b html "$INPUT_ASCIIDOCTOR_PARAMS" {} \;
     find . -name "README.html" -execdir ln -s "README.html" "index.html" \;
     find . -name "*$INPUT_ADOC_FILE_EXT" -exec git rm -f --cached {} \;
 fi
@@ -53,7 +53,7 @@ if [[ $INPUT_PDF_BUILD == true ]]; then
     INPUT_EBOOK_MAIN_ADOC_FILE="$INPUT_EBOOK_MAIN_ADOC_FILE$INPUT_ADOC_FILE_EXT"
     MSG="Building $PDF_FILE ebook from $INPUT_EBOOK_MAIN_ADOC_FILE"
     echo "$MSG"
-    asciidoctor-pdf "$INPUT_EBOOK_MAIN_ADOC_FILE" -o "$PDF_FILE" $INPUT_ASCIIDOCTOR_PARAMS
+    asciidoctor-pdf "$INPUT_EBOOK_MAIN_ADOC_FILE" -o "$PDF_FILE" "$INPUT_ASCIIDOCTOR_PARAMS"
 fi
 
 SLIDES_FILE="slides.html"
